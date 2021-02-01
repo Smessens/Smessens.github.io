@@ -2,8 +2,129 @@
 <html>
 <body>
 
-<h1>My First Heading</h1>
-<p>My first paragraph.</p>
+<h1>Betting simulator</h1>
+<br>
+
+<label >The goal of this website is to simulate buying lotterie ticket and give you  how much money you made or lost in this act</label>
+<br>
+<br>
+<br>
+<label >I want to buy </label>
+<input type="number" id="numCase" value=1  style="width: 60px;" required>
+<label >ticket </label>
+
+<select id="freq" >
+    <option value="365">Daily</option>
+    <option value="52">Weekly</option>
+    <option value="1">Annualy</option>
+</select>  
+
+<label >for</label>
+<input type="number" id="numYear" value=1  style="width: 60px;" required>
+<label > years</label>
+<label >playing</label>
+<select id="kind" >
+    <option value="0">Win For Life</option>
+</select>  
+<input type="submit" value="Submit" onclick="Main()" >
+<br>
+<br>
+<label id= "text"></label>
+<br>
+<br><br>
+<br><br>
+<br>
+<label>Please keep in mind that this website simulate every bet and will take some time for very a large number of ticket</label>
+
+ 
+<script>
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max)).toString();;
+}
+
+function totalGag(occ,reward){
+    totGagnant=occ.reduce((a, b) => a + b, 0)
+    var sum = 0
+    for (i = occ.length; i > 0; i--) {
+        sum += occ[i] * reward[i];
+    }
+    return sum
+}
+
+function scratch (occ ,reward,per){
+    rand=Math.floor(Math.random() * per);
+
+    for (i = 0; i < occ.length; i++) {
+        if (rand<occ[i]){
+            return reward[i]
+        }
+        rand-=occ[i]
+    }
+    return 0
+}
+
+
+function pickMul(d,num){
+    val=0
+    for (j = 0; j < num; j++) {
+
+        val+=scratch(d["occ"],d["reward"],d["per"])
+    }
+    val-=num*d["cost"]
+    return val
+}
+//win for life
+
+
+var wfl = {
+    "occ": [1,5,50,100,175,200,1300,20000,100000,128000,249831],
+    "reward": [96000,2500,250,100,50,30,15,9,6,3,0],
+    "per":1000000,
+    "cost": 3
+};
+var arrKind= [wfl]
+
+function Main(){
+    tot=document.getElementById("numCase").value*document.getElementById("freq").value*document.getElementById("numYear").value
+    kind=arrKind[document.getElementById("kind").value]
+    console
+    if(tot<0){
+        alert("Numbers cant be negative")
+    }
+    else{
+        console.time('someFunction')
+        val  =  pickMul(kind,tot)
+        console.log(val)
+        if(val>0){ txt= "You won " + val.toString() + " euros"}
+        else  {txt= "You lost " + val.toString() + " euros"}
+        document.getElementById("text").innerHTML = txt
+        console.timeEnd('someFunction')
+    }
+
+}
+
+//Main();
+
+
+
+
+console.log(wfl)
+</script>
+
+
+
+<br><br><br><br><br>
+un coupon contient la rente mensuelle de 2000 € valeur 96 000€<br>
+15 lots de 2500 € <br>
+50 lots de 250 €<br>
+100 lots de 100 €<br>
+175 lots de 50 €<br>
+200 lots de 30 €<br>
+1300 lots de 15 €<br>
+20 000 lots de 9 €<br>
+100 000 lots de 6 €<br>
+128 000 lots de 3 €.<br>
+
 
 </body>
 </html>
